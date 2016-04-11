@@ -1,9 +1,10 @@
 package shang.firstnative;
 
-import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
+import android.widget.FrameLayout;
 
 import com.facebook.react.LifecycleState;
 import com.facebook.react.ReactInstanceManager;
@@ -11,13 +12,17 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
-public class JsActivity extends Activity implements DefaultHardwareBackBtnHandler {
+public class JsActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
     private ReactRootView rootView;
     private ReactInstanceManager instanceManager;
+    private FrameLayout containerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_js);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         rootView = new ReactRootView(this);
         instanceManager = ReactInstanceManager.builder()
                 .setApplication(getApplication())
@@ -29,7 +34,10 @@ public class JsActivity extends Activity implements DefaultHardwareBackBtnHandle
                 .build();
 
         rootView.startReactApplication(instanceManager,"FirstNative",null);
-        setContentView(rootView);
+        containerView = (FrameLayout)findViewById(R.id.js_container);
+        containerView.addView(rootView);
+//        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
     }
 
     @Override
