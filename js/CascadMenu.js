@@ -6,100 +6,178 @@ var {
   Component,
   ScrollView,
   StyleSheet,
+  TouchableOpacity,
+  PixelRatio,
   View
 } = React;
 
+	var prefixType = '_type_';
+	var prefixStyle='_style_';
+	var defaultBackgroundColor = {backgroundColor:'#FFF'};
 
 var CascadMenu = React.createClass({
-	getInitialState:function  () {
-		return{
-			wholeArea:false,
-			hotBusiness:true,
-			hotDistrict:false,
-			wholeAreaFFF:{},
-			hotBusinessFFF:{backgroundColor:'#FFF'},
-			hotDistrictFFF:{},
-		};
-	},
+
 	render:function(){
+		var header = this.renderHeader();
+		var left = this.renderLeft();
+		var right = this.renderRight();
 		return(
 			<View style={styles.container}>
 					<View style={[styles.row,styles.header]}>
-							<View style={[styles.flex_1,styles.center]}>
-									<Text style={[styles.header_text,styles.active_blue]}>全部区域</Text>
-							</View>
-							<View style={[styles.flex_1,styles.center]}>
-									<Text style={[styles.header_text]}>地铁沿线</Text>
-							</View>
+							{header}
 					</View>
 					<View style={[styles.row,styles.flex_1]}>
 							<ScrollView style={[styles.flex_1,styles.left_pannel]}>
-									<Text onPress={this.wholeArea.bind(this,this.state.wholeArea)} style={[styles.left_row,this.state.wholeAreaFFF,styles.center]}>全部区域</Text>
-									<Text onPress={this.hotBusiness.bind(this,this.state.hotBusiness)} style={[styles.left_row,this.state.hotBusinessFFF]}>热门商圈</Text>
-									<Text onPress={this.hotDistrict.bind(this,this.state.hotDistrict)} style={[styles.left_row,this.state.hotDistrictFFF]}>热门行政区</Text>
+									{left}
 							</ScrollView>
-							{
-								this.state.wholeArea?
-									<ScrollView style={[styles.flex_1,styles.right_pannel]}>
-											<Text style={styles.left_row}>全部区域</Text>
-									</ScrollView>:null
-							}{
-								this.state.hotBusiness?
-									<ScrollView style={[styles.flex_1,styles.right_pannel]}>
-											<Text style={styles.left_row}>虹桥地区</Text>
-											<Text style={styles.left_row}>徐家汇地区</Text>
-											<Text style={styles.left_row}>淮海路地区</Text>
-											<Text style={styles.left_row}>静安寺地区</Text>
-											<Text style={styles.left_row}>上海火车站地区</Text>
-											<Text style={styles.left_row}>浦东陆家嘴金融贸易区</Text>
-											<Text style={styles.left_row}>四川北路商业区</Text>
-											<Text style={styles.left_row}>人民广场地区</Text>
-									</ScrollView>:null
-							}{
-								this.state.hotDistrict?
-									<ScrollView style={[styles.flex_1,styles.right_pannel]}>
-											<Text style={styles.left_row}>静安区</Text>
-											<Text style={styles.left_row}>徐汇区</Text>
-											<Text style={styles.left_row}>长宁长</Text>
-											<Text style={styles.left_row}>黄浦区</Text>
-											<Text style={styles.left_row}>虹口区</Text>
-											<Text style={styles.left_row}>宝山区</Text>
-											<Text style={styles.left_row}>闸北区</Text>
-									</ScrollView>:null
-							}
+							<ScrollView style={[styles.flex_1,styles.right_pannel]}>
+									{right}
+							</ScrollView>
 					</View>
 			</View>
 			);
 	},
-	wholeArea:function(){
-		this.setState({
-			wholeArea:true,
-			hotBusiness:false,
-			hotDistrict:false,
-			wholeAreaFFF:{backgroundColor:'#FFF'},
-			hotBusinessFFF:{},
-			hotDistrictFFF:{},
-		});
+
+	getInitialState:function () {
+		 var data = this.props.data;
+		 var nSelected = this.props.nSelected;
+		 var tabSelected = this.props.tabSelected;
+		 var obj = {};
+		 var kIndex = 0;
+		 for (var k in data){
+		 	var childData = data[k];
+		 	var cIndex = 0;
+		 	for (var c in childData){
+		 		var type = prefixType + k + '_' + c;
+		 		var style = prefixStyle + k + '_' + c;
+		 		if ( tabSelected == kIndex &&  nSelected == cIndex ){
+		 			obj[type] = true;
+		 			obj[style] = defaultBackgroundColor;
+		 		}else{	
+			 		obj[type] = false;
+			 		obj[style] = {};
+		 		}
+		 		cIndex ++;
+		 	}
+		 	kIndex ++;
+		 }
+		 obj.tabSelected = tabSelected;
+		 obj.nSelected = nSelected;
+		 return obj;
 	},
-	hotBusiness:function(){
-		this.setState({
-			wholeArea:false,
-			hotBusiness:true,
-			hotDistrict:false,
-			wholeAreaFFF:{},
-			hotBusinessFFF:{backgroundColor:'#FFF'},
-			hotDistrictFFF:{},
-		});
+
+	renderHeader:function(){
+		var data = this.props.data;
+		var tabSelected = this.state.tabSelected;
+		var header =[];
+		var tabIndex = 0;
+		for(var i in data){
+			var tabStyle = null;
+			var headerContainerStyle = {};
+			if (tabIndex == tabSelected) {
+				tabStyle = [styles.header_text,styles.active_blue];
+				headerContainerStyle = [styles.flex_1,styles.center,styles.header,styles.header_selected];
+			}else {
+				tabStyle = [styles.header_text];
+				headerContainerStyle = [styles.flex_1,styles.center,styles.header];
+			}
+			header.push(
+				<TouchableOpacity style={headerContainerStyle}
+					onPress={this.headerPress.bind(this,i)}>
+					<Text style={tabStyle}>{i}</Text>
+				</TouchableOpacity>
+				);
+			tabIndex ++;
+		}
+		return header;
 	},
-	hotDistrict:function(){
-		this.setState({
-			wholeArea:false,
-			hotBusiness:false,
-			hotDistrict:true,
-			wholeAreaFFF:{},
-			hotBusinessFFF:{},
-			hotDistrictFFF:{backgroundColor:'#FFF'},
-		});
+	renderLeft:function(){
+		var data = this.props.data;
+		var tabSelected = this.state.tabSelected;
+		var leftPannel = [];
+		var index = 0;
+		for (var i in data){
+			if(index == tabSelected){
+				for (var k in data[i]){
+					var style = this.state[prefixStyle+i+'_'+k];
+					leftPannel.push(
+						<View style={[styles.pannel,styles.center,style]}>
+							<Text onPress={this.leftPress.bind(this,i,k)} style={[styles.left_row]}>{k}</Text>
+						</View>
+						);
+				}
+				break;
+			}
+			index ++;
+		}
+		return leftPannel;
+	},
+
+	renderRight:function(){
+		var data = this.props.data;
+		var tabSelected = this.state.tabSelected;
+		var nSelected = this.state.nSelected;
+		var tabIndex = 0;
+		var rightPannel = [];
+		for(var i in data){
+			if (tabSelected == tabIndex) {
+				for (var k in data[i]){
+					if (this.state[prefixType+i+'_'+k]) {
+						for(var j in data[i][k]){
+							rightPannel.push(
+								<View style={[styles.pannel,styles.center,styles.right_item]}>
+									<Text onPress={this.props.click.bind(this,data[i][k][j])} style={styles.left_row}>{data[i][k][j]}</Text>
+								</View>
+								);
+						}
+						break;
+					};
+				}
+			};
+			tabIndex ++;
+		}
+		return rightPannel;
+	},
+	headerPress:function(title){
+		var data = this.props.data;
+		var index = 0;
+		for(var i  in data){
+			if ( i == title){
+				this.setState({tabSelected:index,});
+				var obj = {};
+				var n = 0;
+				for (var k in data[i]){
+					if (n !== 0){
+						obj[prefixType+i+'_'+k] = false;
+						obj[prefixStyle+i+'_'+k] = {};
+					}else{
+						obj[prefixType+i+'_'+k] = true;
+						obj[prefixStyle+i+'_'+k] = defaultBackgroundColor;
+					}
+					n++;
+				}
+			    this.setState(obj);
+			}
+			index++;
+		}
+	},
+	leftPress:function(tabIndex,nIndex){
+		var obj = {};
+		for (var k in this.state){
+			if (k.indexOf(prefixType) > -1) {
+				var obj = {};
+				obj [k] = false;
+				this.setState(obj);
+			};
+			if (k.indexOf(prefixStyle) > -1){
+				var obj = {};
+			    obj[k] = {};
+				this.setState(obj);
+			}
+		}
+		obj[prefixType + tabIndex + '_' + nIndex] = true;
+		obj[prefixStyle + tabIndex+ '_' + nIndex] = defaultBackgroundColor;
+		this.setState(obj);
 	},
 });
 
@@ -123,6 +201,9 @@ var styles = StyleSheet.create({
 		borderColor:'#DFDFDF',
 		backgroundColor:'#F5F5F5',
 	},
+	header_selected:{
+		backgroundColor:'#FFFFFF',
+	},
 	header_text:{
 		color:'#7B7B7B',
 		fontSize:15,
@@ -134,17 +215,19 @@ var styles = StyleSheet.create({
 	left_pannel:{
 		backgroundColor:'#F2F2F2',
 	},
-	left_row:{
-		textAlign:'center',
-		textAlignVertical:'center',
-		flex:1,
+	right_item:{
+		height:35,
+		borderColor:'#EEEEEE',
+		borderBottomWidth:1/PixelRatio.get(),
+	},
+	pannel:{
 		height:30,
-		lineHeight:20,
+	},
+	left_row:{
 		fontSize:14,
 		color:'#7C7C7C',
 	},
 	right_pannel:{
-		marginLeft:10,
 	},
 	active_blue:{
 		color:'#00B7EB',
