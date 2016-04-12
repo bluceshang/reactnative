@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.android.js",
   "scripts": {
-      "start": "node node_modules/react-native/local-cli/cli.js start"
+    "start": "node node_modules/react-native/local-cli/cli.js start"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "react": "^0.14.8",
-    "react-native": "^0.23.1"
+    "react-native": "^0.23.1",
+    "react-native-swiper": "^1.4.3"
   }
 }

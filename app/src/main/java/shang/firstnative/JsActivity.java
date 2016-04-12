@@ -33,7 +33,7 @@ public class JsActivity extends AppCompatActivity implements DefaultHardwareBack
                 .setInitialLifecycleState(LifecycleState.RESUMED)
                 .build();
 
-        rootView.startReactApplication(instanceManager,"FirstNative",null);
+        rootView.startReactApplication(instanceManager,"Playground",null);
         containerView = (FrameLayout)findViewById(R.id.js_container);
         containerView.addView(rootView);
 //        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
