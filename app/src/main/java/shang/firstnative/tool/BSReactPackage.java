@@ -12,6 +12,7 @@ import java.util.Collections;
 import java.util.List;
 
 import shang.firstnative.module.BSImageViewManager;
+import shang.firstnative.module.BSTextViewManager;
 import shang.firstnative.module.BSToast;
 
 /**
@@ -33,7 +34,8 @@ public class BSReactPackage implements ReactPackage {
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Arrays.<ViewManager>asList(
-                new BSImageViewManager()
+                new BSImageViewManager(),
+                new BSTextViewManager()
         );
     }
 }

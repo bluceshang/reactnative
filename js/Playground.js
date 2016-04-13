@@ -10,6 +10,7 @@ import React,{
 var BSToast = require('./module/BSToast');
 
 var BSImageView = require('./module/BSImageView');
+var BSTextView = require('./module/BSTextView');
 
 class Playground extends Component{
 	constructor(props){
@@ -18,6 +19,11 @@ class Playground extends Component{
 			bounceValue:new Animated.Value(0),
 		};
 	}
+		// <BSImageView style={{width:80,height:50,padding:5,backgroundColor:'#FFF'}} 
+		// 			src={'http://i.imgur.com/XMKOH81.jpg'} 
+		// 			borderRadius={15} 
+		// 			resizeMode={'cover'}
+		// 			onPress={this.onImageClick.bind(this)}/>
 	render():ReactElement{
 		return(
 			<Animated.Image
@@ -26,11 +32,9 @@ class Playground extends Component{
 					transform:[{scale:this.state.bounceValue},]
 				}}
 				>
-				<BSImageView style={{width:80,height:50,padding:5,backgroundColor:'#FFF'}} 
-					src={'http://i.imgur.com/XMKOH81.jpg'} 
-					borderRadius={15} 
-					resizeMode={'cover'}
-					onPress={this.onImageClick.bind(this)}/>
+			
+
+				<BSTextView  text={'myView'} textColor={'#FFFFFF'} textSize={16} />
 				</Animated.Image>
 			);
 	}

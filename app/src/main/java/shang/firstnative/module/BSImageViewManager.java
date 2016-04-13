@@ -1,7 +1,6 @@
 package shang.firstnative.module;
 
 
-
 import android.support.annotation.Nullable;
 
 import com.facebook.drawee.backends.pipeline.Fresco;
@@ -25,21 +24,23 @@ public class BSImageViewManager extends SimpleViewManager<ReactImageView> {
 
     @Override
     protected ReactImageView createViewInstance(ThemedReactContext reactContext) {
-        return new ReactImageView(reactContext, Fresco.newDraweeControllerBuilder(),null);
+        ReactImageView reactImageView = new ReactImageView(reactContext, Fresco.newDraweeControllerBuilder(), null);
+        return reactImageView;
     }
 
     @ReactProp(name = "src")
-    public void setSrc(ReactImageView view,@Nullable String src){
+    public void setSrc(ReactImageView view, @Nullable String src) {
         view.setSource(src);
     }
 
-    @ReactProp(name = "borderRadius",defaultFloat = 0f)
-    public void setBorderRadius(ReactImageView view,float borderRadius){
+    @ReactProp(name = "borderRadius", defaultFloat = 0f)
+    public void setBorderRadius(ReactImageView view, float borderRadius) {
         view.setBorderRadius(borderRadius);
     }
 
     @ReactProp(name = ViewProps.RESIZE_MODE)
-    public void setResizeMode(ReactImageView view,@Nullable String resizeMode){
+    public void setResizeMode(ReactImageView view, @Nullable String resizeMode) {
         view.setScaleType(ImageResizeMode.toScaleType(resizeMode));
     }
+
 }
