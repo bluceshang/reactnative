@@ -5,8 +5,11 @@ import React,{
 	Animated,
 	Text,
 	DeviceEventEmitter,
+	PropTypes,
 }from 'react-native';
 var BSToast = require('./module/BSToast');
+
+var BSImageView = require('./module/BSImageView');
 
 class Playground extends Component{
 	constructor(props){
@@ -23,8 +26,11 @@ class Playground extends Component{
 					transform:[{scale:this.state.bounceValue},]
 				}}
 				>
-				<Text style={{width:80,height:50,color:'#FFF',fontSize:20,paddingLeft:15,backgroundColor:'#F00'}} 
-					onPress={this.onImageClick.bind(this)}>click</Text>
+				<BSImageView style={{width:80,height:50,padding:5,backgroundColor:'#FFF'}} 
+					src={'http://i.imgur.com/XMKOH81.jpg'} 
+					borderRadius={15} 
+					resizeMode={'cover'}
+					onPress={this.onImageClick.bind(this)}/>
 				</Animated.Image>
 			);
 	}
@@ -79,8 +85,6 @@ class Playground extends Component{
 			BSToast.show('sorry',BSToast.SHORT);
 		}
 	}
-
-
 
 }
 
