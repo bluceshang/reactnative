@@ -5,6 +5,8 @@ import React,{
 	Animated,
 	Text,
 }from 'react-native';
+var BSToast = require('./module/BSToast');
+BSToast.show('hello toast',BSToast.SHORT);
 
 class Playground extends Component{
 	constructor(props){
@@ -37,18 +39,19 @@ class Playground extends Component{
 			).start();
 	}
 	onImageClick(){
+		BSToast.show('hello toast',BSToast.SHORT);
 		this.state.bounceValue.setValue(0.6);
 		Animated.spring(
 			this.state.bounceValue,
 			{
-				toValue:1,
+				toValue:0.8,
 				friction:1,
 			},
 		).start(()=>this.onEndAnimation());
 	}
 
 	onEndAnimation(){
-		this.state.bounceValue.setValue(0.8);
+		
 	}
 
 }

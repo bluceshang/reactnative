@@ -12,6 +12,6 @@ public class RCApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-//        RNCacheViewManager.init(this);
+        RNCacheViewManager.init(this);
     }
 }

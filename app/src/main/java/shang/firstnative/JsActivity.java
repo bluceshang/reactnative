@@ -12,6 +12,8 @@ import com.facebook.react.ReactRootView;
 import com.facebook.react.modules.core.DefaultHardwareBackBtnHandler;
 import com.facebook.react.shell.MainReactPackage;
 
+import shang.firstnative.tool.RNCacheViewManager;
+
 public class JsActivity extends AppCompatActivity implements DefaultHardwareBackBtnHandler {
     private ReactRootView rootView;
     private ReactInstanceManager instanceManager;
@@ -24,14 +26,7 @@ public class JsActivity extends AppCompatActivity implements DefaultHardwareBack
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         rootView = new ReactRootView(this);
-        instanceManager = ReactInstanceManager.builder()
-                .setApplication(getApplication())
-                .setBundleAssetName("index.android.bundle")
-                .setJSMainModuleName("index.android")
-                .addPackage(new MainReactPackage())
-                .setUseDeveloperSupport(BuildConfig.DEBUG)
-                .setInitialLifecycleState(LifecycleState.RESUMED)
-                .build();
+        instanceManager = RNCacheViewManager.getReactInstanceManager();
 
         rootView.startReactApplication(instanceManager,"Playground",null);
         containerView = (FrameLayout)findViewById(R.id.js_container);
