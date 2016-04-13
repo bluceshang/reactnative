@@ -4,9 +4,9 @@ import React,{
 	Component,
 	Animated,
 	Text,
+	DeviceEventEmitter,
 }from 'react-native';
 var BSToast = require('./module/BSToast');
-BSToast.show('hello toast',BSToast.SHORT);
 
 class Playground extends Component{
 	constructor(props){
@@ -29,6 +29,10 @@ class Playground extends Component{
 			);
 	}
 	componentDidMount(){
+		DeviceEventEmitter.addListener('PersonInfo',function(e:Event){
+			BSToast.show(e.name+' '+e.age+' '+e.sex ,BSToast.SHORT);
+		});
+
 		this.state.bounceValue.setValue(1.5);
 		Animated.spring(
 			this.state.bounceValue,
@@ -38,8 +42,10 @@ class Playground extends Component{
 			}
 			).start();
 	}
+
 	onImageClick(){
-		BSToast.show('hello toast',BSToast.SHORT);
+		var a = 34+' ' ;
+		this.stringToInt(a);
 		this.state.bounceValue.setValue(0.6);
 		Animated.spring(
 			this.state.bounceValue,
@@ -47,12 +53,34 @@ class Playground extends Component{
 				toValue:0.8,
 				friction:1,
 			},
-		).start(()=>this.onEndAnimation());
+		).start();
 	}
 
-	onEndAnimation(){
-		
+	stringToInt(val){
+		this.messageOperation();
+		BSToast.stringToInt(val,(msg)=>{
+			BSToast.show(msg+'hello toast',BSToast.SHORT);
+		},(msg)=>{
+			BSToast.show(msg,BSToast.SHORT);
+		});
 	}
+
+	async  messageOperation(){
+		try{
+			var{
+				relativeX,
+				relativeY,
+				width,
+				height,
+				message,
+			} = await BSToast.messageOperation(100+' ');
+			BSToast.show('relativeX:'+relativeX+' relativeY:'+relativeY+' width:'+width+' height:'+height+' msg:'+message,BSToast.SHORT);
+		}catch(e){
+			BSToast.show('sorry',BSToast.SHORT);
+		}
+	}
+
+
 
 }
 
