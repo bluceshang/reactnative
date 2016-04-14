@@ -13,13 +13,14 @@ var BSViewModule = React.createClass({
 	render(){
 		return(
 			<View style={[styles.container,styles.center]}>
-				<BSTextView onChange={this.clickListener} style={styles.text} text={'text'} textColor={'#FF0000'} textSize={40}/>
+				<BSTextView {...this.props} onChange={this.clickListener} style={styles.text} text={'text'} textColor={'#FF0000'} textSize={40}/>
 			</View>
 			);
 	},
 
 	clickListener(e:Event){
-		BSToast.show('hello toast '+e.toString(),BSToast.SHORT);
+
+		BSToast.show('hello toast '+e.nativeEvent.bsname,BSToast.SHORT);
 	}
 });
 

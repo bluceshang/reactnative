@@ -28,11 +28,9 @@ public class BSTextView extends TextView implements View.OnClickListener {
             BSLog.e("happen event");
             WritableMap event = Arguments.createMap();
             event.putString("message", "MyMessage");
+            event.putString("bsname","shang");
             ReactContext reactContext = (ReactContext) getContext();
-            reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(
-                    getId(),
-                    "topChange",
-                    event);
+            reactContext.getJSModule(RCTEventEmitter.class).receiveEvent(getId(), "topChange", event);
 
 //            event = Arguments.createMap();
 //            event.putString("message", "MyMessage");
