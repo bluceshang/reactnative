@@ -32,7 +32,7 @@ public class JsActivity extends AppCompatActivity implements DefaultHardwareBack
         rootView = new ReactRootView(this);
         instanceManager = RNCacheViewManager.getReactInstanceManager();
 
-        rootView.startReactApplication(instanceManager, "BSViewModule", null);
+        rootView.startReactApplication(instanceManager, "AnimatedDemo", null);
         containerView = (FrameLayout) findViewById(R.id.js_container);
         containerView.addView(rootView);
 
